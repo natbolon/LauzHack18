@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rolexers</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 90%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Fairtig è l'app che mi congiunge a te</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="prova1.html">Week Day Morning
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Week-afternoon.html">Week Day Afternoon</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="Weekend-morning.html">Weekend Morning
+                    <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Weekend-afternoon.html">Weekend Afternoon</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="map"></div>
+<script>
+
+    var map;
+
+    fetch('http://127.0.0.1:8000/startbootstrap-bare-gh-pages/locations_curt.json')
+        .then(res => {
+            console.log(res);
+            res.json();
+        })
+        .then(data => cities);
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 9,
+            center: {lat: 46.704752, lng: 6.967261}
+        });
+
+        map.data.setStyle(function (feature) {
+            return {
+                title: feature.getProperty('name'),
+                optimized: false
+            };
+        });
+
+        // NOTE: This uses cross-domain XHR, and may not work on older browsers.
+        map.data.addGeoJson(
+            cities);
+    }
+
+    var cities = {
+        type: "FeatureCollection",
+        features: [{
+            type: "Feature",
+            geometry: {type: "Point", coordinates: [7.0660289, 46.6245656]},
+            properties: {name: "Bulle, Verdel"}
+        }, {
+            type: "Feature",
+            geometry: {type: "Point", coordinates: [6.8297563, 46.5547204]},
+            properties: {name: "Palézieux"}
+        }, {
+            type: "Feature",
+            geometry: {type: "Point", coordinates: [6.8151617000000009, 46.5691032]},
+            properties: {name: "Châtillens"}
+        }, {
+            type: "Feature",
+            geometry: {type: "Point", coordinates: [6.833333, 46.566667]},
+            properties: {name: "Oron"}
+        }, {
+            type: "Feature",
+            geometry: {type: "Point", coordinates: [6.9118086, 46.691887]},
+            properties: {name: "Romont"}
+        }, {
+            type: "Feature",
+            geometry: {type: "Point", coordinates: [6.9612339999999993, 46.720974299999988]},
+            properties: {name: "Villaz-St-Pierre"}
+        }, {
+            type: "Feature",
+            geometry: {type: "Point", coordinates: [7.0015049, 46.7409687]},
+            properties: {name: "Chénens"}
+        }]
+    }
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZTS7mKiTiKrky6erXlCBW3BgYAJVG-VY&callback=initMap">
+</script>
+</body>
+</html>

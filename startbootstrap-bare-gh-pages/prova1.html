@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rolexers</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 90%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Fairtiq è l'app che mi congiunge a te</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="prova1.html">Critical Stations
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="Week-afternoon.html">Lines to Improve
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="map"></div>
+<script>
+
+    var marker
+
+    function initMap() {
+        var map;
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: {lat: 46.791249, lng: 7.150278}
+        });
+
+        map.data.setStyle(function (feature) {
+            return {
+                title: feature.getProperty('name'),
+                optimized: false
+            };
+        });
+
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < cities.length; i++) {
+            console.log(cities[i])
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(cities[i].geometry.coordinates[1], cities[i].geometry.coordinates[0]),
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(contentString[i]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+
+        // NOTE: This uses cross-domain XHR, and may not work on older browsers.
+        //map.data.addGeoJson(
+        //    cities);
+    }
+
+
+    //var cities = {
+    //    type: "FeatureCollection",
+    //    features: [\
+    var contentString = [
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Fribourg, gare CFF</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Working days</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS NFO 2</b> to <b>BUS NFO 1</b> with an average of <b>339 transfers per day</b>'+
+        ' and an average waiting time of <b>6.7</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFO 1</b> to <b>BUS NFB 5</b> with an average of <b>111 transfers per day</b>'+
+        ' and an average waiting time of <b>4.3</b> minuts</p>' +
+        '<p>Third most common transfer from <b>BUS NFO 1</b> to <b>BUS NFO 2</b> with an average of <b>314 transfers per day</b>'+
+        ' and an average waiting time of <b>5.2</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Fribourg, St-Pierre</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Working days</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS NFB 5</b> to <b>BUS NFO 1</b> with an average of <b>98 transfers per day</b>'+
+        ' and an average waiting time of <b>7.0</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFB 5</b> to <b>BUS NFO 2</b> with an average of <b>80 transfers per day</b>'+
+        ' and an average waiting time of <b>6.4</b> minuts</p>' +
+        '<p>Third most common transfer from <b>BUS NFO 3</b> to <b>BUS NFO 2</b> with an average of <b>67 transfers per day</b>'+
+        ' and an average waiting time of <b>5.9</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Fribourg, Tilleul</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Working days</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS NFO 1</b> to <b>BUS NFO 2</b> with an average of <b>134 transfers per day</b>'+
+        ' and an average waiting time of <b>7.4</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFO 2</b> to <b>BUS NFO 1</b> with an average of <b>128 transfers per day</b>'+
+        ' and an average waiting time of <b>5.5</b> minuts</p>' +
+        '<p>Third most common transfer from <b>BUS NFO 1</b> to <b>BUS NFO 6</b> with an average of <b>68 transfers per day</b>'+
+        ' and an average waiting time of <b>7.2</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Bulle</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Working days</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS NFB 201</b> to <b>TRAIN RE 3809</b> with an average of <b>85 transfers per day</b>'+
+        ' and an average waiting time of <b>7.3</b> minuts</p>' +
+        '<p>Second most common transfer from <b>TRAIN S 60</b> to <b>TRAIN RE 3809</b> with an average of <b>69 transfers per day</b>'+
+        ' and an average waiting time of <b>7.3</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN S 50</b> to <b>TRAIN RE 3808</b> with an average of <b>56 transfers per day</b>'+
+        ' and an average waiting time of <b>6.6</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Fribourg, Place Georges Python</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Working days</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS NFO 2</b> to <b>BUS NFB 5</b> with an average of <b>98 transfers per day</b>'+
+        ' and an average waiting time of <b>5.5</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFO 1</b> to <b>BUS NFB 5</b> with an average of <b>77 transfers per day</b>'+
+        ' and an average waiting time of <b>5.4</b> minuts</p>' +
+        '<p>Third most common transfer from <b>BUS NFO 2</b> to <b>BUS NFO 3</b> with an average of <b>69 transfers per day</b>'+
+        ' and an average waiting time of <b>3.7</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Bulle, Place de la Gare</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Mornings</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 201</b> with an average of <b>116 transfers per day</b>'+
+        ' and an average waiting time of <b>2.5</b> minuts</p>' +
+        '<p>Second most common transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 202</b> with an average of <b>78 transfers per day</b>'+
+        ' and an average waiting time of <b>7.2</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN S 50</b> to <b>NFB 203</b> with an average of <b>56 transfers per day</b>'+
+        ' and an average waiting time of <b>8.5</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Düdingen, Bahnhof</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Afternoons</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN S 1</b> to <b> BUS 121</b> with an average of <b>89 transfers per day</b>'+
+        ' and an average waiting time of <b>2.5</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS 121</b> to <b>NFB 124</b> with an average of <b>45 transfers per day</b>'+
+        ' and an average waiting time of <b>7.2</b> minuts</p>' +
+        '<p>Third most common transfer from <b>NFB 124</b> to <b>BUS 121</b> with an average of <b>32 transfers per day</b>'+
+        ' and an average waiting time of <b>8.5</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Romont</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Weekends</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN S 40</b> to <b>TRAIN RE 3808</b> with an average of <b>54 transfers per day</b>'+
+        ' and an average waiting time of <b>4.9</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFB 455</b> to <b>TRAIN RE 3808</b> with an average of <b>51 transfers per day</b>'+
+        ' and an average waiting time of <b>18.2</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN IR 15</b> to <b>TRAIN RE 3808</b> with an average of <b>48 transfers per day</b>'+
+        ' and an average waiting time of <b>6.6</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Bulle, gare</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Weekends</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 260</b> with an average of <b>36 transfers per day</b>'+
+        ' and an average waiting time of <b>9.9</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFB 202</b> to <b>BUS NFB 264</b> with an average of <b>27 transfers per day</b>'+
+        ' and an average waiting time of <b>18.9</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 264</b> with an average of <b>13 transfers per day</b>'+
+        ' and an average waiting time of <b>10.8</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Grolley</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Weekends</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS 55505</b> to <b>TRAIN S 30</b> with an average of <b>111 transfers per day</b>'+
+        ' and an average waiting time of <b>6.9</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS N5</b> to <b>TRAIN S 30</b> with an average of <b>25 transfers per day</b>'+
+        ' and an average waiting time of <b>3.3</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN S 30</b> to <b>BUS 55502</b> with an average of <b>5 transfers per day</b>'+
+        ' and an average waiting time of <b>1.5</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Cottens</h3>' +
+        '<div id="bodyContent">' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Schmitten</h3>' +
+        '<div id="bodyContent">' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Murten/Morat</h3>' +
+        '<div id="bodyContent">' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Le Mouret, village</h3>' +
+        '<div id="bodyContent">' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">La Roche FR, poste</h3>' +
+        '<div id="bodyContent">' +
+        '</div>' +
+        '</div>',
+
+    ];
+
+    var cities = [
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.1511106999999994,
+                    46.8031371
+                ]
+            },
+            properties: {
+                name: "Fribourg, gare CFF",
+                id: 8.592374E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    6.9612339999999993,
+                    46.720974299999988
+                ]
+            },
+            properties: {
+                name: "Fribourg, St-Pierre",
+                id: 8.589161E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.1601310000000007,
+                    46.805600899999988
+                ]
+            },
+            properties: {
+                name: "Fribourg, Tilleul",
+                id: 8.587255E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.0577267999999993,
+                    46.6154512
+                ]
+            },
+            properties: {
+                name: "Bulle",
+                id: 8.504086E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.1563699,
+                    46.8046668
+                ]
+            },
+            properties: {
+                name: "Fribourg, Place Georges Python",
+                id: 8.57781E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.0546580000000008,
+                    46.6187394
+                ]
+            },
+            properties: {
+                name: "Bulle, Place de la Gare",
+                id: 8.59328E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.1897923,
+                    46.8503979
+                ]
+            },
+            properties: {
+                name: "Düdingen, Bahnhof",
+                id: 8.504769E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    6.9118086,
+                    46.691887
+                ]
+            },
+            properties: {
+                name: "Romont",
+                id: 8.504023E+6
+            }
+        },
+        {
+         type:"Feature",
+         geometry:{
+            type:"Point",
+            coordinates:[
+               7.0577267999999993,
+               46.6154512
+            ]
+         },
+         properties:{
+            name:"Bulle",
+            id:8.504086E+6
+         }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.0671903999999994,
+                    46.8328352
+                ]
+            },
+            properties: {
+                name: "Grolley",
+                id: 8.504138E+6
+            }
+        },
+        {
+         type:"Feature",
+         geometry:{
+            type:"Point",
+            coordinates:[
+               7.032901,
+               46.7531574
+            ]
+         },
+         properties:{
+            name:"Cottens",
+            id:8.504026E+6
+         }
+      },
+      
+      {
+         type:"Feature",
+         geometry:{
+            type:"Point",
+            coordinates:[
+               7.2485899999999992,
+               46.85552
+            ]
+         },
+         properties:{
+            name:"Schmitten",
+            id:8.504102E+6
+         }
+      },
+      {
+         type:"Feature",
+         geometry:{
+            type:"Point",
+            coordinates:[
+               7.120184,
+               46.929221100000007
+            ]
+         },
+         properties:{
+            name:"Murten/Morat",
+            id:8.504128E+6
+         }
+      },
+      {
+         type:"Feature",
+         geometry:{
+            type:"Point",
+            coordinates:[
+               7.1777862,
+               46.7475846
+            ]
+         },
+         properties:{
+            name:"Le Mouret, village",
+            id:8.504865E+6
+         }
+      },
+      {
+         type:"Feature",
+         geometry:{
+            type:"Point",
+            coordinates:[
+               7.1412195999999986,
+               46.698104
+            ]
+         },
+         properties:{
+            name:"La Roche FR, poste",
+            id:8.504873E+6
+         }
+      }
+    ];
+
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZTS7mKiTiKrky6erXlCBW3BgYAJVG-VY&callback=initMap">
+</script>
+</body>
+</html>

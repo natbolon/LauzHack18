@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rolexers</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Fairtig è l'app che mi congiunge a te</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div id="buttons" style="height: 5%">
+    <button onclick="nati()">Test</button>
+</div>
+
+
+<div id="map" style="height: 90%"></div>
+<script>
+
+    var map;
+    var cities;
+    function nati() {
+        fetch('http://127.0.0.1:8000/startbootstrap-bare-gh-pages/locations_curt.json')
+             .then(res => {
+                 console.log(res);
+                 res.json();
+             })
+             .then(data => cities);
+        initMap(cities)
+    }
+
+    function initMap(c) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 46.805120, lng: 7.160554},
+            zoom: 10
+        });
+        // Add some markers to the map.
+        map.data.setStyle(function (feature) {
+            return {
+                title: feature.getProperty('name'),
+                optimized: false
+            };
+        });
+        map.data.addGeoJson(c);
+    }
+
+    var x = {
+        type: 'FeatureCollection',
+        features: [{
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [-87.650, 41.850]},
+            properties: {name: 'Chicago'}
+        }, {
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [-149.900, 61.218]},
+            properties: {name: 'Anchorage'}
+        }, {
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [-99.127, 19.427]},
+            properties: {name: 'Mexico City'}
+        }, {
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [-0.126, 51.500]},
+            properties: {name: 'London'}
+        }, {
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [28.045, -26.201]},
+            properties: {name: 'Johannesburg'}
+        }, {
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [15.322, -4.325]},
+            properties: {name: 'Kinshasa'}
+        }, {
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [151.207, -33.867]},
+            properties: {name: 'Sydney'}
+        }, {
+            type: 'Feature',
+            geometry: {type: 'Point', coordinates: [0, 0]},
+            properties: {name: '0°N 0°E'}
+        }]
+    };
+
+
+    function initialize() {
+
+
+        // Giving the map som options
+        var mapOptions = {
+            zoom: 4,
+            center: new google.maps.LatLng(66.02219, 12.63376)
+        };
+
+        // Creating the map
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+
+        // Looping through all the entries from the JSON data
+        for (var i = 0; i < data.length; i++) {
+
+            // Current object
+            var obj = data[i];
+
+            // Adding a new marker for the object
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                map: map,
+                title: obj.title // this works, giving the marker a title with the correct title
+            });
+
+            // Adding a new info window for the object
+            //var clicker = addClicker(marker, obj.title);
+
+        }
+    }
+
+
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZTS7mKiTiKrky6erXlCBW3BgYAJVG-VY&callback=initMap"
+        async defer></script>
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

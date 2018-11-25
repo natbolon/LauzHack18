@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rolexers</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 90%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Fairtiq è l'app che mi congiunge a te</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="prova1.html">Critical Stations
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="Week-afternoon.html">Lines to Improve
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="map"></div>
+<script>
+
+    var marker
+
+    function initMap() {
+        var map;
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: {lat: 46.614201, lng: 7.058299}
+        });
+
+        map.data.setStyle(function (feature) {
+            return {
+                title: feature.getProperty('name'),
+                optimized: false
+            };
+        });
+
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < cities.length; i++) {
+            console.log(cities[i])
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(cities[i].geometry.coordinates[1], cities[i].geometry.coordinates[0]),
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(contentString[i]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+        var flightPlanCoordinates2 = [
+        {lat: 46.617785, lng: 7.019895},
+        {lat: 46.617933, lng: 7.024654},
+        {lat: 46.615739, lng: 7.030547},
+        {lat: 46.613449, lng: 7.041195},
+        {lat: 46.615563, lng: 7.053117},
+        {lat: 46.615730, lng: 7.057607},
+        {lat: 46.617004, lng: 7.056855},
+        {lat: 46.618278, lng: 7.054919},
+        {lat: 46.620089, lng: 7.056882},
+        {lat: 46.622822, lng: 7.056644},
+        {lat: 46.622097, lng: 7.060232},
+        {lat: 46.622097, lng: 7.060232},
+        {lat: 46.624504, lng: 7.083716}
+        ];
+
+        var flightPlanCoordinates = [
+          {lat: 46.615603, lng: 7.057488},
+          {lat: 46.604419,   lng: 7.070666},
+          {lat: 46.593779, lng: 7.079504},
+          {lat: 46.586017,  lng: 7.088621},
+          {lat: 46.573437,    lng: 7.087335},
+          {lat: 46.560216,  lng: 7.099996},
+          {lat: 46.552294,    lng: 7.096229},
+          {lat: 46.541380,  lng: 7.086634},
+
+
+        ];
+
+    
+        var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates2,
+          geodesic: true,
+          strokeColor: '#FFF300',
+          strokeOpacity: 1.0,
+          strokeWeight: 3
+        });
+
+        var flight2 = new google.maps.Polyline(
+            {
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+        flight2.setMap(map);
+
+
+        // NOTE: This uses cross-domain XHR, and may not work on older browsers.
+        //map.data.addGeoJson(
+        //    cities);
+    }
+
+
+    //var cities = {
+    //    type: "FeatureCollection",
+    //    features: [\
+    var contentString = [
+        
+
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Bulle</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Working days</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS NFB 201</b> to <b>TRAIN RE 3809</b> with an average of <b>85 transfers per day</b>'+
+        ' and an average waiting time of <b>7.3</b> minuts</p>' +
+        '<p>Second most common transfer from <b>TRAIN S 60</b> to <b>TRAIN RE 3809</b> with an average of <b>69 transfers per day</b>'+
+        ' and an average waiting time of <b>7.3</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN S 50</b> to <b>TRAIN RE 3808</b> with an average of <b>56 transfers per day</b>'+
+        ' and an average waiting time of <b>6.6</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Fribourg, Place Georges Python</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Working days</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>BUS NFO 2</b> to <b>BUS NFB 5</b> with an average of <b>98 transfers per day</b>'+
+        ' and an average waiting time of <b>5.5</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFO 1</b> to <b>BUS NFB 5</b> with an average of <b>77 transfers per day</b>'+
+        ' and an average waiting time of <b>5.4</b> minuts</p>' +
+        '<p>Third most common transfer from <b>BUS NFO 2</b> to <b>BUS NFO 3</b> with an average of <b>69 transfers per day</b>'+
+        ' and an average waiting time of <b>3.7</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Bulle, Place de la Gare</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Mornings</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 201</b> with an average of <b>116 transfers per day</b>'+
+        ' and an average waiting time of <b>2.5</b> minuts</p>' +
+        '<p>Second most common transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 202</b> with an average of <b>78 transfers per day</b>'+
+        ' and an average waiting time of <b>7.2</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN S 50</b> to <b>NFB 203</b> with an average of <b>56 transfers per day</b>'+
+        ' and an average waiting time of <b>8.5</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Düdingen, Bahnhof</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Afternoons</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN S 1</b> to <b> BUS 121</b> with an average of <b>89 transfers per day</b>'+
+        ' and an average waiting time of <b>2.5</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS 121</b> to <b>NFB 124</b> with an average of <b>45 transfers per day</b>'+
+        ' and an average waiting time of <b>7.2</b> minuts</p>' +
+        '<p>Third most common transfer from <b>NFB 124</b> to <b>BUS 121</b> with an average of <b>32 transfers per day</b>'+
+        ' and an average waiting time of <b>8.5</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Romont</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Weekends</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN S 40</b> to <b>TRAIN RE 3808</b> with an average of <b>54 transfers per day</b>'+
+        ' and an average waiting time of <b>4.9</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFB 455</b> to <b>TRAIN RE 3808</b> with an average of <b>51 transfers per day</b>'+
+        ' and an average waiting time of <b>18.2</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN IR 15</b> to <b>TRAIN RE 3808</b> with an average of <b>48 transfers per day</b>'+
+        ' and an average waiting time of <b>6.6</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h3 id="firstHeading" class="firstHeading">Bulle, gare</h3>' +
+        '<h4 id="subHeading" style="color: #fd7e14">Critical on Weekends</h4>' +
+        '<div id="bodyContent">' +
+        '<p>Main transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 260</b> with an average of <b>36 transfers per day</b>'+
+        ' and an average waiting time of <b>9.9</b> minuts</p>' +
+        '<p>Second most common transfer from <b>BUS NFB 202</b> to <b>BUS NFB 264</b> with an average of <b>27 transfers per day</b>'+
+        ' and an average waiting time of <b>18.9</b> minuts</p>' +
+        '<p>Third most common transfer from <b>TRAIN RE 3808</b> to <b>BUS NFB 264</b> with an average of <b>13 transfers per day</b>'+
+        ' and an average waiting time of <b>10.8</b> minuts</p>' +
+        '</div>' +
+        '</div>',
+
+    ];
+
+    var cities = [
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.0577267999999993,
+                    46.6154512
+                ]
+            },
+            properties: {
+                name: "Bulle",
+                id: 8.504086E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.1563699,
+                    46.8046668
+                ]
+            },
+            properties: {
+                name: "Fribourg, Place Georges Python",
+                id: 8.57781E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.0546580000000008,
+                    46.6187394
+                ]
+            },
+            properties: {
+                name: "Bulle, Place de la Gare",
+                id: 8.59328E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    7.1897923,
+                    46.8503979
+                ]
+            },
+            properties: {
+                name: "Düdingen, Bahnhof",
+                id: 8.504769E+6
+            }
+        },
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    6.9118086,
+                    46.691887
+                ]
+            },
+            properties: {
+                name: "Romont",
+                id: 8.504023E+6
+            }
+        },
+        {
+         type:"Feature",
+         geometry:{
+            type:"Point",
+            coordinates:[
+               7.0577267999999993,
+               46.6154512
+            ]
+         },
+         properties:{
+            name:"Bulle",
+            id:8.504086E+6
+         }
+        },
+        
+      
+    ];
+
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZTS7mKiTiKrky6erXlCBW3BgYAJVG-VY&callback=initMap">
+</script>
+</body>
+</html>
